@@ -20,6 +20,7 @@ SRC_NAME			=	main.c					\
 						get_args.c				\
 						parse_args.c			\
 						print_verbose_info.c	\
+						print_info.c			\
 						is_flag_set.c			\
 						get_file_type.c
 

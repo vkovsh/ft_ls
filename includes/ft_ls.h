@@ -24,8 +24,22 @@
 # define SOFT_LINK_COLOR 0x00ffff
 # define BIN_COLOR 0x00ff00
 # define REG_COLOR 0xffffff
-//# define 
+# define FIF_COLOR 0x0f00f0
 # define TYPE_ID_MACRO {S_IFREG, S_IFDIR, S_IFCHR, S_IFBLK, S_IFIFO, S_IFLNK, S_IFSOCK}
+# define REG_PAIR (t_colorpair){.fc = 0xffffff}
+# define DIR_PAIR (t_colorpair){.fc = 0x0000ff}
+# define CHR_PAIR (t_colorpair){.fc = 0xa0a000, .bc = 0xff0000}
+# define BLK_PAIR (t_colorpair){.fc = 0xa0a000, .bc = 0xff0000}
+# define FIFO_PAIR (t_colorpair){.fc = 0xa0a000}
+# define LNK_PAIR (t_colorpair){.fc = 0x00ffff}
+# define SOC_PAIR (t_colorpair){.fc = 0x00ffff}
+# define COLOR_PAIRS {REG_PAIR, DIR_PAIR, CHR_PAIR, BLK_PAIR, FIFO_PAIR, LNK_PAIR, SOC_PAIR}
+
+typedef struct	s_colorpair
+{
+	int			fc;
+	int			bc;
+}				t_colorpair;
 
 typedef enum	e_perm
 {
@@ -74,11 +88,13 @@ typedef struct	s_ftls
 {
 	int			flags;
 	t_list		*arguments;
+	void		(*print_arg)(t_catalog *catalog);
 }				t_ftls;
 
 void		get_args(int ac, char **av, t_ftls *ftls);
-void		parse_args(t_ftls *ftls);
+void		parse_args(t_ftls *ftls, t_list *arguments);
 void		print_verbose_info(t_catalog *catalog);
+void		print_info(t_catalog *catalog);
 bool		is_flag_set(int flags, int flag);
 t_filetype	get_file_type(const char *path);
 

@@ -25,7 +25,7 @@ void            get_permission_str(struct stat *s,
         *name_color = BIN_COLOR;
     else
     {
-        *name_color = FILE_COLOR;
+        *name_color = REG_COLOR;
         perm[0] = '-';
     }
     i = 0;
@@ -35,7 +35,8 @@ void            get_permission_str(struct stat *s,
 
 void				print_from_stat(struct stat *s,
 					const char *cname,
-					const char *tname)
+					const char *tname,
+                    t_colorpair pair)
 {
 	char			perm[11];
 	int				name_color;
@@ -47,14 +48,15 @@ void				print_from_stat(struct stat *s,
 	pw = getpwuid(s->st_uid);
 	gr = getgrgid(s->st_gid);
     get_permission_str(s, perm, &name_color);
-    ft_printf("%-11s%d %s %s %d %.12s %{*}s",
+    ft_printf("%-11s%d %s %s %d %.12s %[*]{*}s",
 			perm,
 			s->st_nlink,
 			pw->pw_name,
 			gr->gr_name,
 			s->st_size,
 			&date[4],
-			name_color,
+			pair.bc,
+            pair.fc,
 			cname);
     if (tname)
         ft_printf(" -> %s\n", tname);
@@ -68,6 +70,7 @@ void			print_verbose_info(t_catalog *catalog)
     struct stat linkstat;
 	const char	*cname;
     char  target_name[256];
+    const t_colorpair   cp[FILE_TYPE_TOTAL] = COLOR_PAIRS;
 
 	cname = catalog->name;
     stat(cname, &cstat);
@@ -75,7 +78,7 @@ void			print_verbose_info(t_catalog *catalog)
     ft_bzero(target_name, 256);
     readlink(cname, target_name, 256);
     if (S_ISLNK(linkstat.st_mode))
-        print_from_stat(&linkstat, cname, target_name);
+        print_from_stat(&linkstat, cname, target_name, cp[catalog->filetype]);
     else
-        print_from_stat(&cstat, cname, NULL);
+        print_from_stat(&cstat, cname, NULL, cp[catalog->filetype]);
 }

@@ -1,14 +1,5 @@
 #include "ft_ls.h"
 
-int					is_directory(const char *path)
-{
-	struct stat		statbuf;
-	
-	if (stat(path, &statbuf) != 0)
-		return (0);
-	return (S_ISDIR(statbuf.st_mode));
-}
-
 void				read_directory(const char *dirname,
 					t_ftls *ftls)
 {
@@ -28,20 +19,18 @@ void				read_directory(const char *dirname,
 	closedir (pdir);
 }
 
-void				parse_args(t_ftls *ftls)
+void				parse_args(t_ftls *ftls, t_list *args)
 {
-	t_list			*argc;
+	t_catalog		*catalog;
 
-	argc = ftls->arguments;
-	while (argc)
+	while (args)
 	{
-		if (is_directory(((t_catalog *)(argc->content))->name))
-		{
-			ft_printf("%s:\n", ((t_catalog *)(argc->content))->name);
-			read_directory(((t_catalog *)(argc->content))->name, ftls);
-		}
+		catalog = (t_catalog *)(args->content);
+		if (catalog->filetype == DIR_FILE)
+			ftls->print_arg(catalog);
 		else
-			print_verbose_info((t_catalog *)(argc->content));
-		argc = argc->next;
+			ftls->print_arg(catalog);
+		ft_printf("\n");
+		args = args->next;
 	}
 }
