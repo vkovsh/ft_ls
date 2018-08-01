@@ -3,59 +3,63 @@
 void            get_permission_str(struct stat *s,
                 char *perm, int *const name_color)
 {
-    perm[10] = '\0';
+	const int	pm[10] = PERM_MACRO;
+	t_perm		i;
+	bool		is_bin;
+	
+	perm[10] = '\0';
+	is_bin = (s->st_mode & S_IXUSR) |
+            (s->st_mode & S_IXGRP) |
+            (s->st_mode & S_IXOTH);
     if (S_ISDIR(s->st_mode))
     {
-        *name_color = 0x0000ff;
+        *name_color = DIR_COLOR;
         perm[0] = 'd';
     }
     else if (S_ISLNK(s->st_mode))
     {
-        *name_color = 0x00ffff;
+        *name_color = SOFT_LINK_COLOR;
         perm[0] = 'l';
     }
-    else if ((s->st_mode & S_IXUSR) ||
-            (s->st_mode & S_IXGRP) ||
-            (s->st_mode & S_IXOTH))
-    {
-        *name_color = 0x00ff00;
-    }
+    else if (is_bin == true)
+        *name_color = BIN_COLOR;
     else
     {
-        *name_color = 0xffffff;
+        *name_color = FILE_COLOR;
         perm[0] = '-';
     }
-    perm[1] = (s->st_mode & S_IRUSR) ? 'r' : '-';
-    perm[2] = (s->st_mode & S_IWUSR) ? 'w' : '-';
-    perm[3] = (s->st_mode & S_IXUSR) ? 'x' : '-';
-    perm[4] = (s->st_mode & S_IRGRP) ? 'r' : '-';
-    perm[5] = (s->st_mode & S_IWGRP) ? 'w' : '-';
-    perm[6] = (s->st_mode & S_IXGRP) ? 'x' : '-';
-    perm[7] = (s->st_mode & S_IROTH) ? 'r' : '-';
-    perm[8] = (s->st_mode & S_IWOTH) ? 'w' : '-';
-    perm[9] = (s->st_mode & S_IXOTH) ? 'x' : '-';
+    i = 0;
+    while (++i <= PERM_TOTAL)
+        perm[i] = (s->st_mode & pm[i]) ? PERM_FULL[i] : '-';
 }
 
-void            print_from_stat(struct stat *s,
-                const char *cname, const char *tname)
+void				print_from_stat(struct stat *s,
+					const char *cname,
+					const char *tname)
 {
-    char        perm[11];
-    int         name_color;
+	char			perm[11];
+	int				name_color;
+    struct passwd	*pw;
+    struct group  	*gr;
+	char			*date;
     
+	date = ctime(&s->st_mtime);
+	pw = getpwuid(s->st_uid);
+	gr = getgrgid(s->st_gid);
     get_permission_str(s, perm, &name_color);
-    ft_printf("%-11s", perm);
-    ft_printf("%d ", s->st_nlink);
-    struct passwd *pw = getpwuid(s->st_uid);
-    ft_printf("%s ", pw->pw_name);
-    struct group  *gr = getgrgid(s->st_gid);
-    ft_printf("%s ", gr->gr_name);
-    ft_printf("%d ", s->st_size);
-    char *date = ctime(&s->st_mtime);
-    ft_printf("%.12s ", &date[4]);
-    ft_printf("%{*}s", name_color, cname);
+    ft_printf("%-11s%d %s %s %d %.12s %{*}s",
+			perm,
+			s->st_nlink,
+			pw->pw_name,
+			gr->gr_name,
+			s->st_size,
+			&date[4],
+			name_color,
+			cname);
     if (tname)
-        ft_printf(" -> %s", tname);
-    ft_printf("\n");
+        ft_printf(" -> %s\n", tname);
+	else
+		ft_printf("\n");
 }
 
 void			print_verbose_info(t_catalog *catalog)
@@ -65,9 +69,9 @@ void			print_verbose_info(t_catalog *catalog)
 	const char	*cname;
     char  target_name[256];
 
-	cstat = catalog->catalog_info;
 	cname = catalog->name;
-    linkstat = catalog->link_info;
+    stat(cname, &cstat);
+	lstat(cname, &linkstat);
     ft_bzero(target_name, 256);
     readlink(cname, target_name, 256);
     if (S_ISLNK(linkstat.st_mode))

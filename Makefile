@@ -18,8 +18,10 @@ OBJ_NAME			=	$(SRC_NAME:.c=.o)
 
 SRC_NAME			=	main.c					\
 						get_args.c				\
-						read_args.c				\
-						print_verbose_info.c
+						parse_args.c			\
+						print_verbose_info.c	\
+						is_flag_set.c			\
+						get_file_type.c
 
 all: $(NAME)
 

@@ -6,6 +6,6 @@ int			main(int argc, char **argv)
 
 	ft_bzero(&ftls, sizeof(t_ftls));
 	get_args(argc, argv, &ftls);
-	read_args(&ftls);
+	parse_args(&ftls);
 	return (0);
 }
