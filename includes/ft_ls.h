@@ -15,7 +15,8 @@
 # define LS_SMALL_A 4
 # define LS_SMALL_R 8
 # define LS_SMALL_D 16
-# define FLAGS_ARRAY "lRard"
+# define LS_ONE 32
+# define FLAGS_ARRAY "lRard1"
 # define PERM_FULL "-rwxrwxrwx"
 # define PERM_EMPTY "----------"
 # define HELP_TXT "Try './ft_ls --help' for more information.\n"
@@ -75,6 +76,7 @@ typedef enum	e_lsflag
 	LS_SMALL_A_POS,
 	LS_SMALL_R_POS,
 	LS_SMALL_D_POS,
+	LS_ONE_POS,
 	LS_FLAG_TOTAL
 }				t_lsflag;
 
@@ -97,5 +99,7 @@ void		print_verbose_info(t_catalog *catalog);
 void		print_info(t_catalog *catalog);
 bool		is_flag_set(int flags, int flag);
 t_filetype	get_file_type(const char *path);
+t_list		*read_directory(const char *dirname,
+					t_ftls *ftls);
 
 #endif

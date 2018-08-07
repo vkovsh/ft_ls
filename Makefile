@@ -22,7 +22,8 @@ SRC_NAME			=	main.c					\
 						print_verbose_info.c	\
 						print_info.c			\
 						is_flag_set.c			\
-						get_file_type.c
+						get_file_type.c			\
+						read_directory.c
 
 all: $(NAME)
 
