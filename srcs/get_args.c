@@ -18,7 +18,6 @@ void			set_flags_from_arg(t_ftls *ftls, char *str)
 			{
 				ft_printf("%s '%c'\n",
 					"ft_ls: invalid option --", str[i]);
-				ft_printf(HELP_TXT);
 				exit(1);
 			}
 		}
@@ -26,14 +25,19 @@ void			set_flags_from_arg(t_ftls *ftls, char *str)
 	}
 }
 
-void			set_catalog_from_arg(t_ftls *ftls, char *str)
+void			set_catalog_from_arg(t_list **args, char *str)
 {
 	t_catalog	tmp;
 
 	tmp.name = str;
-	tmp.filetype = get_file_type(str);
-	ft_lstadd(&(ftls->arguments),
-		ft_lstnew(&tmp, sizeof(t_catalog)));
+	tmp.stat_res = stat(tmp.name, &tmp.cstat);
+	if ((tmp.lstat_res = lstat(tmp.name, &tmp.clstat)) < 0)
+		ft_printf("ft_ls: cannot access '%s': No such file or directory\n", tmp.name);
+	else
+	{
+		tmp.filetype = get_file_type(&tmp);
+		ft_lstadd(args, ft_lstnew(&tmp, sizeof(t_catalog)));
+	}
 }
 
 void			get_args(int ac, char **av, t_ftls *ftls)
@@ -45,7 +49,9 @@ void			get_args(int ac, char **av, t_ftls *ftls)
 		if (*(av[i]) == '-' && av[i][1])
 			set_flags_from_arg(ftls, &(av[i][1]));
 		else
-			set_catalog_from_arg(ftls, av[i]);
+			set_catalog_from_arg(&(ftls->arguments),
+				ft_strdup(av[i]));
 	if (ftls->arguments == NULL)
-		set_catalog_from_arg(ftls, ".");
+		set_catalog_from_arg(&(ftls->arguments),
+			ft_strdup("."));
 }

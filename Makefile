@@ -23,7 +23,10 @@ SRC_NAME			=	main.c					\
 						print_info.c			\
 						is_flag_set.c			\
 						get_file_type.c			\
-						read_directory.c
+						read_directory.c		\
+						is_system_dot_dir.c		\
+						sort.c					\
+						compare.c
 
 all: $(NAME)
 
