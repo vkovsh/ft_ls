@@ -43,7 +43,7 @@ t_list				*read_directory(const char *dirname,
 		}
 	}
 	if (is_flag_set(ftls->flags, LS_SMALL_L))
-		ft_printf("total %d\n", total);
+		ft_printf("total %[*]{*}d\n", 0xff0000, 0xffff00, total);
 	closedir(pdir);
 	return (dir_args);
 }

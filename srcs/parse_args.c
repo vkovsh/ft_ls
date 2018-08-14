@@ -75,6 +75,7 @@ static void			extract_args(t_list *args,
 				ftls->print_arg(catalog);
 				ft_putchar(ftls->delimiter);
 			}
+
 		}
 		else
 		{

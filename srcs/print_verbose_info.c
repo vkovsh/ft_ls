@@ -80,10 +80,23 @@ void					print_verbose_info(t_catalog *catalog)
 	{
 		ft_bzero(target_name, NAME_MAX + 1);
 		readlink(cname, target_name, NAME_MAX + 1);
-		print_from_stat(catalog, target_name,
+		if (catalog->stat_res < 0)
+			print_from_stat(catalog, target_name,
+			(t_colorpair){.fc = 0xff0000});
+		else
+			print_from_stat(catalog, target_name,
 			cp[catalog->filetype]);
 	}
 	else
-		print_from_stat(catalog, NULL,
-			cp[catalog->filetype]);
+	{
+		if (catalog->filetype == REG_FILE &&
+			is_binary(&(catalog->clstat)))
+		{
+			print_from_stat(catalog, NULL,
+				(t_colorpair){.fc = 0xff0000});
+		}
+		else
+			print_from_stat(catalog, NULL,
+				cp[catalog->filetype]);
+	}
 }

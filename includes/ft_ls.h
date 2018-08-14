@@ -46,8 +46,8 @@
 # define TYPE_ID_MACRO TIM_A S_IFLNK, S_IFSOCK}
 # define REG_PAIR (t_colorpair){.fc=0xffffff}
 # define DIR_PAIR (t_colorpair){.fc=0x6666FF}
-# define CHR_PAIR (t_colorpair){.fc=0xa0a000,.bc=0xff0000}
-# define BLK_PAIR (t_colorpair){.fc=0xa0a000,.bc=0xff0000}
+# define CHR_PAIR (t_colorpair){.fc=0x0000ff,.bc=0xffff00}
+# define BLK_PAIR (t_colorpair){.fc=0x0000ff,.bc=0x00ffff}
 # define FIFO_PAIR (t_colorpair){.fc=0xa0a000}
 # define LNK_PAIR (t_colorpair){.fc=0x00ffff}
 # define SOC_PAIR (t_colorpair){.fc=0x00ffff}
