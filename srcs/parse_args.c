@@ -66,9 +66,11 @@ static void			extract_args(t_list *args,
 		catalog = (t_catalog *)(args->content);
 		if (catalog->filetype == DIR_FILE)
 		{
-			ft_lstadd(dirs,
+			if (!is_flag_set(ftls->flags, LS_SMALL_D))
+				ft_lstadd(dirs,
 				ft_lstnew(catalog, sizeof(t_catalog)));
-			if (ft_strcmp(".", catalog->name) && depth)
+			if ((ft_strcmp(".", catalog->name) && depth) ||
+				is_flag_set(ftls->flags, LS_SMALL_D))
 			{
 				ftls->print_arg(catalog);
 				ft_putchar(ftls->delimiter);
@@ -101,11 +103,14 @@ void				parse_args(t_ftls *ftls,
 {
 	t_list			*dirs;
 
-	dirs = NULL;
-	sort_args(&args, ftls);
-	extract_args(args, &dirs, ftls, depth);
-	ft_lstrev(&dirs);
-	if (is_flag_set(ftls->flags, LS_BIG_R) || depth == 0)
-		extract_args_from_dirs(ftls, dirs, depth);
-	ft_lstdel(&args, &del_catalog_entry);
+	if (args != NULL)
+	{
+		dirs = NULL;
+		sort_args(&args, ftls);
+		extract_args(args, &dirs, ftls, depth);
+		ft_lstrev(&dirs);
+		if (is_flag_set(ftls->flags, LS_BIG_R) || depth == 0)
+			extract_args_from_dirs(ftls, dirs, depth);
+		ft_lstdel(&args, &del_catalog_entry);
+	}
 }
