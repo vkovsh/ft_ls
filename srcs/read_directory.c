@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read_directory.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vkovsh <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/14 13:53:33 by vkovsh            #+#    #+#             */
+/*   Updated: 2018/08/14 13:53:35 by vkovsh           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ls.h"
 
 static inline bool	append_it(int flags, const char *name)
@@ -21,6 +33,6 @@ t_list				*read_directory(const char *dirname,
 			set_catalog_from_arg(&dir_args,
 				ft_strjoin_free(ft_strjoin(dirname, "/"),
 				pdirent->d_name, TRUE, FALSE));
-	closedir (pdir);
+	closedir(pdir);
 	return (dir_args);
 }

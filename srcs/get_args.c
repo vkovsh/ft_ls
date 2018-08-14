@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_args.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vkovsh <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/14 13:48:19 by vkovsh            #+#    #+#             */
+/*   Updated: 2018/08/14 13:48:22 by vkovsh           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ls.h"
 
 void			set_flags_from_arg(t_ftls *ftls, char *str)
@@ -10,7 +22,7 @@ void			set_flags_from_arg(t_ftls *ftls, char *str)
 	while (str[i])
 	{
 		j = -1;
-		while(++j < LS_FLAG_TOTAL)
+		while (++j < LS_FLAG_TOTAL)
 		{
 			if (str[i] == flags[j])
 				ftls->flags |= 1 << j;
@@ -32,7 +44,8 @@ void			set_catalog_from_arg(t_list **args, char *str)
 	tmp.name = str;
 	tmp.stat_res = stat(tmp.name, &tmp.cstat);
 	if ((tmp.lstat_res = lstat(tmp.name, &tmp.clstat)) < 0)
-		ft_printf("ft_ls: cannot access '%s': No such file or directory\n", tmp.name);
+		ft_printf("ft_ls: cannot access '%s'%s",
+		tmp.name, ": No such file or directory\n");
 	else
 	{
 		tmp.filetype = get_file_type(&tmp);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vkovsh <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/14 13:54:21 by vkovsh            #+#    #+#             */
+/*   Updated: 2018/08/14 13:54:23 by vkovsh           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ls.h"
 
 void			swap(t_list *a, t_list *b)
@@ -15,7 +27,6 @@ void			bubblesort(t_list **args,
 {
 	t_list		*tmp;
 	int			swap_count;
-	int			general_swap = 0;
 
 	swap_count = 1;
 	while (swap_count != 0)
@@ -24,13 +35,12 @@ void			bubblesort(t_list **args,
 		tmp = *args;
 		while (tmp->next)
 		{
-			if (((comproute_t)compare)(tmp, tmp->next, compare_operator))
+			if (((t_comproute)compare)(tmp, tmp->next, compare_operator))
 			{
 				swap_count++;
 				swap(tmp, tmp->next);
 			}
 			tmp = tmp->next;
 		}
-		general_swap += swap_count;
 	}
 }
