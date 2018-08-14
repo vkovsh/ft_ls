@@ -19,7 +19,7 @@ static void			del_catalog_entry(void *c, size_t size)
 	if (size == sizeof(t_catalog))
 	{
 		to_del = (t_catalog *)c;
-		ft_strdel(&(to_del->name));
+		//ft_strdel(&(to_del->name));
 		ft_memdel(&c);
 	}
 	else
@@ -75,7 +75,6 @@ static void			extract_args(t_list *args,
 				ftls->print_arg(catalog);
 				ft_putchar(ftls->delimiter);
 			}
-
 		}
 		else
 		{
@@ -112,6 +111,7 @@ void				parse_args(t_ftls *ftls,
 		ft_lstrev(&dirs);
 		if (is_flag_set(ftls->flags, LS_BIG_R) || depth == 0)
 			extract_args_from_dirs(ftls, dirs, depth);
+		ft_lstdel(&dirs, &del_catalog_entry);
 		ft_lstdel(&args, &del_catalog_entry);
 	}
 }
