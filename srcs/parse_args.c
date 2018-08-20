@@ -14,11 +14,11 @@
 
 static void			del_catalog_entry(void *c, size_t size)
 {
-	t_catalog		*to_del;
+	//t_catalog		*to_del;
 
 	if (size == sizeof(t_catalog))
 	{
-		to_del = (t_catalog *)c;
+		//to_del = (t_catalog *)c;
 		//ft_strdel(&(to_del->name));
 		ft_memdel(&c);
 	}
@@ -31,7 +31,9 @@ static void			extract_args_from_dirs(t_ftls *ftls,
 {
 	t_catalog		*catalog;
 	char			*name_buf;
+	t_list			*tmp;
 
+	tmp = dirs;
 	while (dirs)
 	{
 		catalog = (t_catalog *)(dirs->content);
@@ -52,6 +54,7 @@ static void			extract_args_from_dirs(t_ftls *ftls,
 		}
 		dirs = dirs->next;
 	}
+	ft_lstdel(&tmp, &del_catalog_entry);
 }
 
 static void			extract_args(t_list *args,
@@ -66,21 +69,13 @@ static void			extract_args(t_list *args,
 		catalog = (t_catalog *)(args->content);
 		if (catalog->filetype == DIR_FILE)
 		{
-			if (!is_flag_set(ftls->flags, LS_SMALL_D))
-				ft_lstadd(dirs,
+			ft_lstadd(dirs,
 				ft_lstnew(catalog, sizeof(t_catalog)));
-			if ((ft_strcmp(".", catalog->name) && depth) ||
-				is_flag_set(ftls->flags, LS_SMALL_D))
-			{
-				ftls->print_arg(catalog);
-				ft_putchar(ftls->delimiter);
-			}
+			if (depth)
+				ftls->print_arg(catalog, ftls->delimiter);
 		}
 		else
-		{
-			ftls->print_arg(catalog);
-			ft_putchar(ftls->delimiter);
-		}
+			ftls->print_arg(catalog, ftls->delimiter);
 		args = args->next;
 	}
 	ft_putchar('\n');
@@ -110,8 +105,8 @@ void				parse_args(t_ftls *ftls,
 		extract_args(args, &dirs, ftls, depth);
 		ft_lstrev(&dirs);
 		if (is_flag_set(ftls->flags, LS_BIG_R) || depth == 0)
-			extract_args_from_dirs(ftls, dirs, depth);
-		ft_lstdel(&dirs, &del_catalog_entry);
+			if (!is_flag_set(ftls->flags, LS_SMALL_D))
+				extract_args_from_dirs(ftls, dirs, depth);
 		ft_lstdel(&args, &del_catalog_entry);
 	}
 }

@@ -69,7 +69,8 @@ void					print_from_stat(t_catalog *c,
 		ft_printf(" -> %s", tname);
 }
 
-void					print_verbose_info(t_catalog *catalog)
+void					print_verbose_info(t_catalog *catalog,
+						char delim)
 {
 	const char			*cname;
 	char				target_name[NAME_MAX + 1];
@@ -99,4 +100,5 @@ void					print_verbose_info(t_catalog *catalog)
 			print_from_stat(catalog, NULL,
 				cp[catalog->filetype]);
 	}
+	ft_putchar(delim);
 }

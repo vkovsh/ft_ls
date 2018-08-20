@@ -62,6 +62,8 @@ int			main(int argc, char **argv)
 	set_print_func(&ftls);
 	set_delimiter(&ftls);
 	proceed_flags(&ftls);
-	parse_args(&ftls, ftls.arguments, 0);
+	parse_args(&ftls,
+		ftls.arguments,
+		is_flag_set(ftls.flags, LS_SMALL_D));
 	return (0);
 }

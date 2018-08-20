@@ -122,7 +122,7 @@ typedef struct			s_ftls
 	int					flags;
 	t_list				*arguments;
 	char				delimiter;
-	void				(*print_arg)(t_catalog *);
+	void				(*print_arg)(t_catalog *, char);
 	t_comproute			compare;
 	t_compoproute		compare_operator;
 }						t_ftls;
@@ -142,8 +142,10 @@ void					get_args(int a,
 						char **args, t_ftls *ftls);
 void					parse_args(t_ftls *ftls,
 						t_list *l, int a);
-void					print_verbose_info(t_catalog *c);
-void					print_info(t_catalog *c);
+void					print_verbose_info(t_catalog *c,
+						char delim);
+void					print_info(t_catalog *c,
+						char delim);
 bool					is_flag_set(int a, int b);
 t_filetype				get_file_type(t_catalog *c);
 t_list					*read_directory(const char *str,
