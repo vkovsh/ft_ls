@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-bool					is_binary(t_stat *s)
+bool					bin(t_stat *s)
 {
 	return ((s->st_mode & S_IXUSR) |
 			(s->st_mode & S_IXGRP) |
@@ -69,36 +69,31 @@ void					print_from_stat(t_catalog *c,
 		ft_printf(" -> %s", tname);
 }
 
-void					print_verbose_info(t_catalog *catalog,
+void					print_verbose_info(t_catalog *c,
 						char delim)
 {
-	const char			*cname;
-	char				target_name[NAME_MAX + 1];
+	char				tn[NAME_MAX + 1];
 	const t_colorpair	cp[FILE_TYPE_TOTAL] = COLOR_PAIRS;
 
-	cname = catalog->name;
-	if (catalog->filetype == LNK_FILE)
+	if (c->filetype == LNK_FILE)
 	{
-		ft_bzero(target_name, NAME_MAX + 1);
-		readlink(cname, target_name, NAME_MAX + 1);
-		if (catalog->stat_res < 0)
-			print_from_stat(catalog, target_name,
+		ft_bzero(tn, NAME_MAX + 1);
+		readlink(c->name, tn, NAME_MAX + 1);
+		if (c->stat_res < 0)
+			print_from_stat(c, tn,
 			(t_colorpair){.fc = 0xff0000});
 		else
-			print_from_stat(catalog, target_name,
-			cp[catalog->filetype]);
+			print_from_stat(c, tn, cp[c->filetype]);
 	}
 	else
 	{
-		if (catalog->filetype == REG_FILE &&
-			is_binary(&(catalog->clstat)))
+		if (c->filetype == REG_FILE && bin(&(c->clstat)))
 		{
-			print_from_stat(catalog, NULL,
-				(t_colorpair){.fc = 0xff0000});
+			print_from_stat(c, NULL,
+			(t_colorpair){.fc = 0xff0000});
 		}
 		else
-			print_from_stat(catalog, NULL,
-				cp[catalog->filetype]);
+			print_from_stat(c, NULL, cp[c->filetype]);
 	}
 	ft_putchar(delim);
 }
