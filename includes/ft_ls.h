@@ -120,7 +120,6 @@ typedef struct			s_catalog
 
 typedef struct			s_ftls
 {
-	//unsigned			
 	int					flags;
 	t_list				*arguments;
 	char				delimiter;
