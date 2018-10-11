@@ -31,6 +31,7 @@ static void			extract_args_from_dirs(t_ftls *ftls,
 {
 	t_catalog		*catalog;
 	char			*name_buf;
+	t_list			*new_args;
 
 	while (dirs)
 	{
@@ -44,9 +45,10 @@ static void			extract_args_from_dirs(t_ftls *ftls,
 			if (ft_strcmp(".", catalog->name))
 				ft_printf("%[*]{*}s:\n",
 				0x00ff00, 0x0000ff, name_buf);
-			parse_args(ftls,
-			read_directory(catalog->name, ftls),
-			depth + 1);
+			if (!(new_args = read_directory(catalog->name, ftls)))
+				ft_error(cut_name(catalog->name));
+			else
+				parse_args(ftls, new_args, depth + 1);
 		}
 		dirs = dirs->next;
 	}

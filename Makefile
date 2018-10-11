@@ -26,7 +26,8 @@ SRC_NAME			=	main.c					\
 						read_directory.c		\
 						is_system_dot_dir.c		\
 						sort.c					\
-						compare.c
+						compare.c				\
+						ft_error.c
 
 all: $(NAME)
 
@@ -46,6 +47,7 @@ clean:
 	@echo "Cleaning obj [ $(NAME) ]..."
 
 fclean: clean
+	@make -C $(LIBFTPRINTF_PATH) fclean
 	@rm -f $(NAME)
 	@echo "Remove [ $(NAME) ]..."
 

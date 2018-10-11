@@ -22,6 +22,7 @@
 # include <pwd.h>
 # include <grp.h>
 # include <time.h>
+# include <errno.h>
 # define LS_SMALL_L 1
 # define LS_BIG_R 2
 # define LS_SMALL_A 4
@@ -119,6 +120,7 @@ typedef struct			s_catalog
 
 typedef struct			s_ftls
 {
+	//unsigned			
 	int					flags;
 	t_list				*arguments;
 	char				delimiter;
@@ -127,7 +129,7 @@ typedef struct			s_ftls
 	t_compoproute		compare_operator;
 }						t_ftls;
 
-void					set_catalog_from_arg(t_list **l,
+int						set_catalog_from_arg(t_list **l,
 						char *str);
 bool					operator_bigger(int a, int b);
 bool					operator_lesser(int a, int b);
@@ -150,5 +152,7 @@ bool					is_flag_set(int a, int b);
 t_filetype				get_file_type(t_catalog *c);
 t_list					*read_directory(const char *str,
 						t_ftls *ftls);
+const char				*cut_name(const char *name);
+void					ft_error(const char *name);
 
 #endif
