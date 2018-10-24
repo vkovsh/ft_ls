@@ -15,8 +15,6 @@ NAME				=	libftprintf.a
 CC 					=	gcc
 CC_FLAGS 			=	-Wall -Werror -Wextra
 
-SRC_PATH 			=	./srcs/
-
 INC_PATH			=	./includes/
 OBJ_PATH			=	./obj/
 
@@ -25,9 +23,10 @@ LIBFT_BASE_PATH		=	$(LIBFT_SRCS_PATH)base/
 LIBFT_BINTREE_PATH	=	$(LIBFT_SRCS_PATH)bintree/
 LIBFT_LIST_PATH		=	$(LIBFT_SRCS_PATH)list/
 LIBFT_STREAM_PATH	=	$(LIBFT_SRCS_PATH)stream/
+LIBFT_PRINTF_PATH	=	$(LIBFT_SRCS_PATH)ft_printf/
 
-MACRO_PATH			=   ./srcs/macro/
-PARSER_PATH			=   ./srcs/parser/
+MACRO_PATH			=   $(LIBFT_PRINTF_PATH)macro/
+PARSER_PATH			=   $(LIBFT_PRINTF_PATH)parser/
 
 OBJ			=	$(addprefix $(OBJ_PATH),$(OBJ_NAME))
 
@@ -180,7 +179,7 @@ $(NAME): $(OBJ)
 	@ranlib $@
 	@echo "Compiling" [ $(NAME) ]
 
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c
+$(OBJ_PATH)%.o: $(LIBFT_PRINTF_PATH)%.c
 	@mkdir -p $(OBJ_PATH)
 	@$(CC) $(CC_FLAGS) -o $@ -c $< $(INC)
 	@echo "Linking" [ $< ]
