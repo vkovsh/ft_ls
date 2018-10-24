@@ -13,6 +13,7 @@
 #ifndef FT_LS_H
 # define FT_LS_H
 # include "ft_printf.h"
+# include <stdio.h>
 # include <stdbool.h>
 # include <fcntl.h>
 # include <unistd.h>

@@ -12,6 +12,7 @@
 
 #ifndef LIBFT_H
 # define LIBFT_H
+# include "bintree.h"
 # include <string.h>
 # include <limits.h>
 # include <wchar.h>
@@ -170,4 +171,5 @@ char				*ft_ulltoa_base(unsigned long long int n, int base);
 char				*ft_ulltoa(unsigned long long int n);
 
 char				*ft_wstr_to_str(wchar_t *ws);
+
 #endif

@@ -10,27 +10,34 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME 		=	libftprintf.a
+NAME				=	libftprintf.a
 
-CC 			=	gcc
-CC_FLAGS 	=	-Wall -Werror -Wextra
+CC 					=	gcc
+CC_FLAGS 			=	-Wall -Werror -Wextra
 
-SRC_PATH 	=	./srcs/
+SRC_PATH 			=	./srcs/
 
-INC_PATH	=	./includes/ $(LIBFT_PATH)includes/
-OBJ_PATH	=	./obj/
-LIBFT_PATH	=	./libft/
-MACRO_PATH  =   ./srcs/macro/
-PARSER_PATH =   ./srcs/parser/
+INC_PATH			=	./includes/
+OBJ_PATH			=	./obj/
+
+LIBFT_SRCS_PATH		=	./srcs/
+LIBFT_BASE_PATH		=	$(LIBFT_SRCS_PATH)base/
+LIBFT_BINTREE_PATH	=	$(LIBFT_SRCS_PATH)bintree/
+LIBFT_LIST_PATH		=	$(LIBFT_SRCS_PATH)list/
+LIBFT_STREAM_PATH	=	$(LIBFT_SRCS_PATH)stream/
+
+MACRO_PATH			=   ./srcs/macro/
+PARSER_PATH			=   ./srcs/parser/
 
 OBJ			=	$(addprefix $(OBJ_PATH),$(OBJ_NAME))
 
 INC			=	$(addprefix -I, $(INC_PATH))
 
 OBJ_NAME	=	$(SRC_NAME:.c=.o)
-
-OBJ_NAME	+=	$(LIBFT_NAME:.c=.o)
-
+OBJ_NAME	+=	$(LIBFT_BASE_NAME:.c=.o)
+OBJ_NAME	+=	$(LIBFT_BINTREE_NAME:.c=.o)
+OBJ_NAME	+=	$(LIBFT_LIST_NAME:.c=.o)
+OBJ_NAME	+=	$(LIBFT_STREAM_NAME:.c=.o)
 OBJ_NAME    +=  $(MACRO_NAME:.c=.o)
 
 OBJ_NAME    +=  $(PARSER_NAME:.c=.o)
@@ -84,79 +91,87 @@ SRC_NAME	=	ft_printf.c 		\
 				check_asterisk.c	\
 				set_value.c	
 
-LIBFT_NAME	=	ft_islow.c 		    \
-				ft_lstrev.c		    \
-				ft_memalloc.c 	    \
-				ft_putendl.c 	    \
-				ft_strcpy.c 	    \
-				ft_strmapi.c 	    \
-				ft_strsub.c		    \
-				ft_isprint.c	    \
-				ft_memccpy.c	    \
-	   			ft_putendl_fd.c	    \
-				ft_strdel.c		    \
-				ft_strncat.c	    \
-	   			ft_strtolower.c	    \
-				ft_arealpha.c	    \
-				ft_isupper.c	    \
-	   			ft_memchr.c		    \
-				ft_putnbr.c		    \
-				ft_strdup.c		    \
-	   			ft_strncmp.c	    \
-				ft_strtoupper.c	    \
-				ft_aredigits.c	    \
-				ft_itoa.c		    \
-				ft_memcmp.c		    \
-				ft_putnbr_fd.c	    \
-				ft_strequ.c		    \
-				ft_strncpy.c	    \
-				ft_strtrim.c	    \
-				ft_atoi.c		    \
-				ft_lstadd.c		    \
-				ft_memcpy.c		    \
-				ft_putstr.c		    \
-				ft_striter.c	    \
-				ft_strnequ.c	    \
-				ft_tolower.c	    \
-				ft_bzero.c		    \
-				ft_lstdel.c		    \
-				ft_memdel.c		    \
-				ft_putstr_fd.c	    \
-				ft_striteri.c	    \
-				ft_strnew.c		    \
-				ft_toupper.c	    \
-				ft_isalnum.c	    \
-				ft_lstdelone.c	    \
-				ft_memmove.c	    \
-				ft_strcat.c		    \
-				ft_strjoin.c	    \
-				ft_strnstr.c	    \
-				ft_isalpha.c	    \
-				ft_lstiter.c	    \
-				ft_memset.c		    \
-				ft_strchr.c		    \
-				ft_strlcat.c	    \
-				ft_strrchr.c	    \
-				ft_isascii.c	    \
-				ft_lstmap.c		    \
-				ft_putchar.c	    \
-				ft_strclr.c		    \
-				ft_strlen.c		    \
-				ft_strsplit.c	    \
-				ft_isdigit.c	    \
-				ft_lstnew.c		    \
-				ft_putchar_fd.c	    \
-				ft_strcmp.c		    \
-				ft_strmap.c		    \
-				ft_strstr.c		    \
-				ft_lstcount.c	    \
-				get_next_line.c	    \
-				ft_ishex.c		    \
-				ft_arehex.c 	    \
-				ft_lltoa.c 		    \
-				ft_ulltoa_base.c	\
-				ft_ulltoa.c			\
-				ft_wstr_to_str.c
+LIBFT_BASE_NAME	=	ft_arealpha.c		\
+					ft_isupper.c   		\
+					ft_strchr.c    		\
+					ft_strmap.c    		\
+					ft_strtolower.c		\
+					ft_aredigits.c  	\
+					ft_itoa.c      		\
+					ft_strclr.c    		\
+					ft_strmapi.c   		\
+					ft_strtoupper.c		\
+					ft_arehex.c     	\
+					ft_lltoa.c     		\
+					ft_strcmp.c    		\
+					ft_strncat.c   		\
+					ft_strtrim.c		\
+					ft_atoi.c       	\
+					ft_memalloc.c  		\
+					ft_strcpy.c    		\
+					ft_strncmp.c   		\
+					ft_tolower.c		\
+					ft_bzero.c      	\
+					ft_memccpy.c   		\
+					ft_strdel.c    		\
+					ft_strncpy.c   		\
+					ft_toupper.c		\
+					ft_isalnum.c    	\
+					ft_memchr.c    		\
+					ft_strdup.c    		\
+					ft_strnequ.c   		\
+					ft_ulltoa_base.c	\
+					ft_isalpha.c    	\
+					ft_memcmp.c    		\
+					ft_strequ.c    		\
+					ft_strnew.c    		\
+					ft_ulltoa.c			\
+					ft_isascii.c    	\
+					ft_memcpy.c    		\
+					ft_striter.c   		\
+					ft_strnstr.c   		\
+					ft_wstr_to_str.c	\
+					ft_isdigit.c    	\
+					ft_memdel.c    		\
+					ft_striteri.c  		\
+					ft_strrchr.c		\
+					ft_ishex.c      	\
+					ft_memmove.c   		\
+					ft_strjoin.c   		\
+					ft_strsplit.c		\
+					ft_islow.c      	\
+					ft_memset.c    		\
+					ft_strlcat.c   		\
+					ft_strstr.c			\
+					ft_isprint.c    	\
+					ft_strcat.c    		\
+					ft_strlen.c    		\
+					ft_strsub.c
+
+LIBFT_BINTREE_NAME	=	ft_bintree_del.c	\
+						ft_bintree_delone.c	\
+						ft_bintree_find.c	\
+						ft_bintree_new.c
+						#ft_bintree_add.c	
+
+LIBFT_LIST_NAME	=		ft_lstadd.c			\
+						ft_lstcount.c		\
+						ft_lstdel.c			\
+						ft_lstdelone.c		\
+						ft_lstiter.c		\
+						ft_lstmap.c			\
+						ft_lstnew.c			\
+						ft_lstrev.c
+
+LIBFT_STREAM_NAME	=	ft_putchar.c		\
+						ft_putchar_fd.c		\
+						ft_putendl.c		\
+						ft_putendl_fd.c		\
+						ft_putnbr.c			\
+						ft_putnbr_fd.c		\
+						ft_putstr.c			\
+						ft_putstr_fd.c		\
+						get_next_line.c
 
 all: $(NAME)
 
@@ -170,7 +185,22 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@$(CC) $(CC_FLAGS) -o $@ -c $< $(INC)
 	@echo "Linking" [ $< ]
 
-$(OBJ_PATH)%.o: $(LIBFT_PATH)%.c
+$(OBJ_PATH)%.o: $(LIBFT_BASE_PATH)%.c
+	@mkdir -p $(OBJ_PATH)
+	@$(CC) $(CC_FLAGS) -o $@ -c $< $(INC)
+	@echo "Linking" [ $< ]
+
+$(OBJ_PATH)%.o: $(LIBFT_BINTREE_PATH)%.c
+	@mkdir -p $(OBJ_PATH)
+	@$(CC) $(CC_FLAGS) -o $@ -c $< $(INC)
+	@echo "Linking" [ $< ]
+
+$(OBJ_PATH)%.o: $(LIBFT_LIST_PATH)%.c
+	@mkdir -p $(OBJ_PATH)
+	@$(CC) $(CC_FLAGS) -o $@ -c $< $(INC)
+	@echo "Linking" [ $< ]
+
+$(OBJ_PATH)%.o: $(LIBFT_STREAM_PATH)%.c
 	@mkdir -p $(OBJ_PATH)
 	@$(CC) $(CC_FLAGS) -o $@ -c $< $(INC)
 	@echo "Linking" [ $< ]
