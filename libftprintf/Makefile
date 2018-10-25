@@ -150,8 +150,8 @@ LIBFT_BASE_NAME	=	ft_arealpha.c		\
 LIBFT_BINTREE_NAME	=	ft_bintree_del.c	\
 						ft_bintree_delone.c	\
 						ft_bintree_find.c	\
-						ft_bintree_new.c
-						#ft_bintree_add.c	
+						ft_bintree_new.c	\
+						ft_bintree_add.c	
 
 LIBFT_LIST_NAME	=		ft_lstadd.c			\
 						ft_lstcount.c		\

@@ -10,5 +10,7 @@ t_bintree		*ft_bintree_new(const void *content,
 	if (!(bintree->content = malloc(content_size)))
 		return (NULL);
 	memmove(bintree->content, content, content_size);
+	bintree->left = NULL;
+	bintree->right = NULL;
 	return (bintree);
 }
