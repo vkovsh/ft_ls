@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkovsh <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/04 12:50:33 by vkovsh            #+#    #+#             */
-/*   Updated: 2017/11/04 14:28:04 by vkovsh           ###   ########.fr       */
+/*   Created: 2017/10/25 17:08:15 by vkovsh            #+#    #+#             */
+/*   Updated: 2017/11/08 13:23:09 by vkovsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
 
-void	ft_lstdelone(t_list **alst, void (*del)(void *, size_t))
+char		*ft_strdup(const char *s1)
 {
-	del((*alst)->content, (*alst)->content_size);
-	free(*alst);
-	*alst = NULL;
+	size_t	len;
+	char	*res;
+
+	len = ft_strlen(s1);
+	if ((res = (char *)malloc(len + 1)) == NULL)
+		return (NULL);
+	ft_memcpy(res, s1, len + 1);
+	return (res);
 }

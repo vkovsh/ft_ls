@@ -7,7 +7,7 @@ SRC_PATH			=	./srcs/
 
 INC_PATH			=	./includes/ $(LIBFTPRINTF_PATH)includes/ $(LIBFT_PATH)includes/
 OBJ_PATH			=	./obj/
-LIBFTPRINTF_PATH	=	./libftprintf/
+LIBFTPRINTF_PATH	=	./libft/
 LIBFT_PATH			=	$(LIBFTPRINTF_PATH)/libft/
 
 OBJ					=	$(addprefix $(OBJ_PATH),$(OBJ_NAME))
@@ -33,7 +33,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@make -C $(LIBFTPRINTF_PATH)
-	@$(CC) -o $(NAME) $(OBJ) $(LIBFTPRINTF_PATH)libftprintf.a
+	@$(CC) -o $(NAME) $(OBJ) $(LIBFTPRINTF_PATH)libft.so
 	@echo "Compiling" [ $(NAME) ]
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c

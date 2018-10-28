@@ -10,10 +10,13 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME				=	libftprintf.a
+STATIC_NAME			=	libft.a
+DYNAMIC_NAME		=	libft.so
 
 CC 					=	gcc
-CC_FLAGS 			=	-Wall -Werror -Wextra
+CC_FLAGS 			=	-Wall -Werror -Wextra -fPIC
+NASM				=	nasm
+NASM_FLAGS			=	-f elf64
 
 INC_PATH			=	./includes/
 OBJ_PATH			=	./obj/
@@ -34,6 +37,8 @@ INC			=	$(addprefix -I, $(INC_PATH))
 
 OBJ_NAME	=	$(SRC_NAME:.c=.o)
 OBJ_NAME	+=	$(LIBFT_BASE_NAME:.c=.o)
+OBJ_NAME	+=	$(LIBFT_ASM_BASE_NAME:.s=.o)
+OBJ_NAME	+=	$(LIBFT_NASM_BASE_NAME:.asm=.o)
 OBJ_NAME	+=	$(LIBFT_BINTREE_NAME:.c=.o)
 OBJ_NAME	+=	$(LIBFT_LIST_NAME:.c=.o)
 OBJ_NAME	+=	$(LIBFT_STREAM_NAME:.c=.o)
@@ -126,7 +131,6 @@ LIBFT_BASE_NAME	=	ft_arealpha.c		\
 					ft_strnew.c    		\
 					ft_ulltoa.c			\
 					ft_isascii.c    	\
-					ft_memcpy.c    		\
 					ft_striter.c   		\
 					ft_strnstr.c   		\
 					ft_wstr_to_str.c	\
@@ -144,14 +148,21 @@ LIBFT_BASE_NAME	=	ft_arealpha.c		\
 					ft_strstr.c			\
 					ft_isprint.c    	\
 					ft_strcat.c    		\
-					ft_strlen.c    		\
 					ft_strsub.c
 
-LIBFT_BINTREE_NAME	=	ft_bintree_del.c	\
-						ft_bintree_delone.c	\
-						ft_bintree_find.c	\
-						ft_bintree_new.c	\
-						ft_bintree_add.c	
+LIBFT_ASM_BASE_NAME 	=	ft_strlen.s
+
+LIBFT_NASM_BASE_NAME	=	ft_strlen.asm	\
+							ft_memcpy.asm
+
+LIBFT_BINTREE_NAME	=	ft_bintree_del.c				\
+						ft_bintree_delone.c				\
+						ft_bintree_find.c				\
+						ft_bintree_new.c				\
+						ft_bintree_add.c				\
+						ft_bintree_prefix_traverse.c	\
+						ft_bintree_infix_traverse.c		\
+						ft_bintree_postfix_traverse.c
 
 LIBFT_LIST_NAME	=		ft_lstadd.c			\
 						ft_lstcount.c		\
@@ -172,12 +183,18 @@ LIBFT_STREAM_NAME	=	ft_putchar.c		\
 						ft_putstr_fd.c		\
 						get_next_line.c
 
-all: $(NAME)
+all: $(STATIC_NAME) so
 
-$(NAME): $(OBJ)
+so: $(DYNAMIC_NAME)
+
+$(DYNAMIC_NAME): $(OBJ)
+	@$(CC) -shared -o $@ $^
+	@echo "Compiling" [ $(DYNAMIC_NAME) ]
+
+$(STATIC_NAME): $(OBJ)
 	@ar rc $@ $^
 	@ranlib $@
-	@echo "Compiling" [ $(NAME) ]
+	@echo "Compiling" [ $(STATIC_NAME) ]
 
 $(OBJ_PATH)%.o: $(LIBFT_PRINTF_PATH)%.c
 	@mkdir -p $(OBJ_PATH)
@@ -187,6 +204,16 @@ $(OBJ_PATH)%.o: $(LIBFT_PRINTF_PATH)%.c
 $(OBJ_PATH)%.o: $(LIBFT_BASE_PATH)%.c
 	@mkdir -p $(OBJ_PATH)
 	@$(CC) $(CC_FLAGS) -o $@ -c $< $(INC)
+	@echo "Linking" [ $< ]
+
+#$(OBJ_PATH)%.o: $(LIBFT_BASE_PATH)%.s
+#	@mkdir -p $(OBJ_PATH)
+#	@$(CC) $(CC_FLAGS) -o $@ -c $< $(INC)
+#	@echo "Linking" [ $< ]
+
+$(OBJ_PATH)%.o: $(LIBFT_BASE_PATH)%.asm
+	@mkdir -p $(OBJ_PATH)
+	@$(NASM) $(NASM_FLAGS) -o $@ $< $(INC)
 	@echo "Linking" [ $< ]
 
 $(OBJ_PATH)%.o: $(LIBFT_BINTREE_PATH)%.c
@@ -216,14 +243,16 @@ $(OBJ_PATH)%.o: $(PARSER_PATH)%.c
 
 clean:
 	@rm -rf $(OBJ_PATH)
-	@echo "Cleaning obj [ $(NAME) ]..."
+	@echo "Cleaning obj [ $(STATIC_NAME) ]..."
 
 fclean: clean
-	@rm -f $(NAME)
-	@echo "Remove..." [ $(NAME) ]
+	@rm -f $(STATIC_NAME)
+	@rm -f $(DYNAMIC_NAME)
+	@echo "Remove..." [ $(STATIC_NAME) ]
+	@echo "Remove..." [ $(DYNAMIC_NAME) ]
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re so
 
-.NOTPARALLEL: all clean fclean re 
+.NOTPARALLEL: all clean fclean re so
